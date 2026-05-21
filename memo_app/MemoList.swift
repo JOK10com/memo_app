@@ -13,7 +13,7 @@ struct MemoList: View {
         Memo(title: "체육대회 날", content: "기마전, 꼬리잡기, 줄다리기")
     ]
     @State var newMemo = Memo(title: "", content: "")
-    
+
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottomTrailing) {
@@ -59,7 +59,6 @@ struct MemoList: View {
                         }
                         .padding()
                     }
-                    
                     NavigationLink(destination: MemoWrite(memo: $newMemo, memos: $memos)) {
                         Image(systemName: "square.and.pencil.circle.fill")
                             .symbolRenderingMode(.palette)
