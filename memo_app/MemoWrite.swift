@@ -11,6 +11,8 @@ struct MemoWrite: View {
     @Binding var memo: Memo
     @Binding var memos: [Memo]
     
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -37,6 +39,7 @@ struct MemoWrite: View {
                         memos.append(memo)
                         memo = Memo(title: "", content: "")
                     }
+                    dismiss()
                 } label: {
                     Text("완료") 
                         .foregroundColor(.yellow)

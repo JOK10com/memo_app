@@ -6,12 +6,6 @@
 //
 import SwiftUI
 
-struct Memo: Identifiable {
-    let id = UUID()
-    var title: String
-    var content: String
-}
-
 struct MemoList: View {
     @State var searchText: String = ""
     @State var memos: [Memo] = [
@@ -24,35 +18,12 @@ struct MemoList: View {
         NavigationStack {
             ZStack(alignment: .bottomTrailing) {
                 VStack(spacing: 0) {
-                    HStack {
-                        Text("Memos")
-                            .font(.system(size: 35, weight: .bold))
-                        Spacer()
-                        
-                        
-                        Menu {
-                            Button(role: .destructive, action: {
-                                memos.removeAll()
-                            }) {
-                                Label("메모 전체 삭제", systemImage: "trash")
-                            }
-                        }label: {
-                            Image(systemName: "ellipsis.circle")
-                                .font(.system(size: 25))
-                                .foregroundColor(.yellow)
-                        }
-                        .searchable(text: $searchText, prompt: "메모를 검색하세요")
-                    }
-                    .padding(.horizontal, 15)
-                    .padding(.top, 20)
-                    
                     ScrollView {
                         VStack(spacing: 8) {
                             ForEach($memos) { $memo in
                                 if searchText.isEmpty ||
                                     memo.title.localizedStandardContains(searchText) ||
                                     memo.content.localizedStandardContains(searchText) {
-                                    
                                     HStack(spacing: 0) {
                                         NavigationLink(destination: MemoDetail(memo: $memo, memos: $memos)) {
                                             VStack(alignment: .leading, spacing: 5) {
@@ -99,6 +70,23 @@ struct MemoList: View {
                     .padding(.bottom, 20)
                 }
             }
+            .navigationTitle("Memos")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Menu {
+                        Button(role: .destructive, action: {
+                            memos.removeAll()
+                        }) {
+                            Label("메모 전체 삭제", systemImage: "trash")
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                            .font(.system(size: 25))
+                            .foregroundColor(.yellow)
+                    }
+                }
+            }
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "메모를 검색하세요")
         }
     }
 }
